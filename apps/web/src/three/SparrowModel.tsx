@@ -37,7 +37,7 @@ export function SparrowModel({ position, scale, renderMotion }: Props) {
         ? clamp((clock.elapsedTime - motion.current.changedAt) / 1.8, 0, 1)
         : 1;
     motion.current.power = THREE.MathUtils.damp(motion.current.power, targetPower, 5, delta);
-    group.current.position.lerp(current.position, 1 - Math.exp(-delta * 8));
+    group.current.position.copy(current.position);
     const speed = current.speedKmh;
     const speedFactor = clamp(speed / 40, 0, 1);
     const heading = current.heading;

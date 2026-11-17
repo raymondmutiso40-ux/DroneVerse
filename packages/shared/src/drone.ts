@@ -38,6 +38,7 @@ export type DroneMode = z.infer<typeof droneModeSchema>;
 export const telemetrySchema = z.object({
   droneId: z.string(),
   t: z.number(),
+  bridgeTimeMs: z.number(),
   position: z.object({ lat: z.number(), lon: z.number(), altM: z.number() }),
   velocity: z.object({
     eastMps: z.number(),

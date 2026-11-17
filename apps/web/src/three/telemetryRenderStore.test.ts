@@ -5,6 +5,7 @@ import { getRenderTelemetry, pushRenderTelemetry, resetRenderTelemetry } from '.
 const sample = (t: number, x: number, headingDeg: number, eastMps = 4): Telemetry => ({
   droneId: 'sim',
   t,
+  bridgeTimeMs: t,
   position: { lat: 0, lon: x / 100_000, altM: 10 },
   velocity: { eastMps, northMps: 0, upMps: 0, yawRateDegPerSec: 0 },
   headingDeg,

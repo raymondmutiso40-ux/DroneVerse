@@ -14,3 +14,5 @@ export * from './missionStateMachine.js';
 export * from './preflight.js';
 export * from './protocol.js';
 export * from './rth.js';
+export * from './poseInterpolator.js';
+export * from './smoothing.js';

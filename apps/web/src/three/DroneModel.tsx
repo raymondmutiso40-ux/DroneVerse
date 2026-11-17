@@ -80,7 +80,7 @@ function ProceduralDrone({
         .sub(previousVelocity.current)
         .multiplyScalar(1 / Math.max(delta, 1 / 120));
     previousVelocity.current.copy(current.velocity);
-    group.current.position.lerp(current.position, 1 - Math.exp(-delta * 8));
+    group.current.position.copy(current.position);
     const speedFactor = clamp(current.speedKmh / 40, 0, 1);
     const heading = current.heading;
     const headingDelta = THREE.MathUtils.euclideanModulo(heading - motion.current.heading + 180, 360) - 180;

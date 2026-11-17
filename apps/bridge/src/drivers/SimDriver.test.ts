@@ -338,7 +338,7 @@ describe('SimDriver', () => {
   describe('real-time telemetry', () => {
     afterEach(() => vi.useRealTimers());
 
-    it('streams at about 10 Hz once connected', async () => {
+    it('streams at about 25 Hz once connected', async () => {
       vi.useFakeTimers();
       const driver = new SimDriver();
       await driver.uploadMission(makeMission());
@@ -348,10 +348,10 @@ describe('SimDriver', () => {
       await driver.connect();
       vi.advanceTimersByTime(2000);
       await driver.disconnect();
-      expect(count - before).toBeGreaterThanOrEqual(19);
-      expect(count - before).toBeLessThanOrEqual(21);
+      expect(count - before).toBeGreaterThanOrEqual(49);
+      expect(count - before).toBeLessThanOrEqual(51);
       vi.advanceTimersByTime(1000);
-      expect(count - before).toBeLessThanOrEqual(21); // stopped
+      expect(count - before).toBeLessThanOrEqual(51); // stopped
     });
 
     it('can run faster than real time for demos', async () => {

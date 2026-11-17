@@ -6,6 +6,7 @@ import { PreflightScreen } from './PreflightScreen';
 const good: Telemetry = {
   droneId: 'sim-drone',
   t: 1,
+  bridgeTimeMs: 1,
   position: { lat: -1.3, lon: 36.8, altM: 0 },
   velocity: { eastMps: 0, northMps: 0, upMps: 0, yawRateDegPerSec: 0 },
   headingDeg: 0,

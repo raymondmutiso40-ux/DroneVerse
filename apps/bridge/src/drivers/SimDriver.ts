@@ -146,9 +146,11 @@ export class SimDriver implements DroneDriver {
 
   telemetry(): Telemetry {
     const ll = this.proj ? this.proj.toLonLat(this.pos) : { lon: 0, lat: 0 };
+    const bridgeTimeMs = this.now();
     return {
       droneId: this.droneId,
-      t: this.now(),
+      t: bridgeTimeMs,
+      bridgeTimeMs,
       position: { lat: ll.lat, lon: ll.lon, altM: this.altM },
       headingDeg: this.headingDeg,
       speedKmh: this.speedMps * 3.6,

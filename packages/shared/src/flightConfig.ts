@@ -66,7 +66,7 @@ export interface FlightConfig {
 }
 
 export const FLIGHT_CONFIG: FlightConfig = {
-  telemetry: { rateHz: 10 },
+  telemetry: { rateHz: 25 },
   preflight: {
     minBatteryPct: 80,
     minGpsSats: 10,

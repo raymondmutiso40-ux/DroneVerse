@@ -2,7 +2,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
-import type { DroneSpec, Field } from '@droneverse/shared';
+import { damp, type DroneSpec, type Field } from '@droneverse/shared';
 import { DroneModel } from './DroneModel';
 import { getHelipadPosition, pointInRing, projectFields, type Point2, type ProjectedField } from './coordinates';
 import { FARM_SCENE_CONFIG } from './sceneConfig';
@@ -402,6 +402,7 @@ function FarmWorld({ fields, drone, view }: Props) {
   const debug = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('debug') === '1';
   const cameraForward = useMemo(() => new THREE.Vector3(0, 0, -1), []);
   const cameraDirection = useMemo(() => new THREE.Vector3(), []);
+  const cameraTargetQuaternion = useMemo(() => new THREE.Quaternion(), []);
   useFrame((_, delta) => {
     const telemetry = getRenderTelemetry();
     if (telemetry) {
@@ -443,13 +444,16 @@ function FarmWorld({ fields, drone, view }: Props) {
       const yaw = THREE.MathUtils.degToRad(renderMotion.current.heading);
       const tilt = THREE.MathUtils.degToRad(58);
       cameraDirection.set(Math.sin(yaw) * Math.cos(tilt), -Math.sin(tilt), Math.cos(yaw) * Math.cos(tilt));
-      camera.quaternion.setFromUnitVectors(cameraForward, cameraDirection);
+      cameraTargetQuaternion.setFromUnitVectors(cameraForward, cameraDirection);
+      camera.quaternion.slerp(cameraTargetQuaternion, 1 - Math.exp(-delta * 8));
     } else {
       const desired =
         view === 'map'
           ? new THREE.Vector3(target.x, 70, target.z + 0.01)
           : new THREE.Vector3(target.x + 12, target.y + 10, target.z + 16);
-      camera.position.lerp(desired, 1 - Math.exp(-delta * 6));
+      camera.position.x = damp(camera.position.x, desired.x, 6, delta);
+      camera.position.y = damp(camera.position.y, desired.y, 6, delta);
+      camera.position.z = damp(camera.position.z, desired.z, 6, delta);
       camera.lookAt(target);
     }
   });
